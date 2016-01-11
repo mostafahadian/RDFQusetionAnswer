@@ -34,11 +34,11 @@ public class QueryProcessor {
 	}
 	
 	public void test(){
-		String queries[]={ "ارتفاع دماوند", "محل تولد حسن روحانی", "محل تولد باراک اوباما", "کشور شهروندی کلینت ایستوود", "پست سیاسی امام خمینی", "سعید جلیلی عضو حزب چیست؟", "ایدئولوژی سیاسی جبهه پایداری انقلاب اسلامی", "برادر امام حسن", "امام حسین", "", ""};
+		String queries[]={"زهرا اشراقی" ,"ارتفاع دماوند", "محل تولد حسن روحانی", "محل تولد باراک اوباما", "کشور شهروندی کلینت ایستوود", "پست سیاسی امام خمینی", "سعید جلیلی عضو حزب چیست؟", "ایدئولوژی سیاسی جبهه پایداری انقلاب اسلامی", "برادر امام حسن", "امام حسین", "", ""};
 		//"ارتفاع دماوند" doesn't work because the type of the returned result is not a label therefore it doesn't have any lang and it gets filtered!
-		String noanswerqueries[]={"محل تولد رییس جمهور"};
+		String noanswerqueries[] ={"محل تولد رییس جمهور"};
 		String exceptionqueries[]={"موقعیت جغرافیایی جمهوری خلق چین", "امام حسن برادرش که بود؟"};
-		processQuery(queries[1]);		
+		processQuery(queries[0]);		
 	}
 	
 	//redis

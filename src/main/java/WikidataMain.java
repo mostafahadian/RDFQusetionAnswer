@@ -1,7 +1,9 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.Literal;
@@ -29,33 +31,43 @@ import com.bigdata.rdf.sail.BigdataSailRepository;
 
 
 public class WikidataMain {
+	static final String baseAddr="D:\\Projects\\Knowledge Graph\\wikidata\\wikidata-statements.nt\\";
+	
+	static final String	wikidataproperties=baseAddr+"wikidata-properties.nt", 
+						wikidatainstances=baseAddr+"wikidata-instances.nt",
+						wikidatasimplestatements=baseAddr+"wikidata-simple-statements.nt",
+						wikidatasitelinks=baseAddr+"wikidata-sitelinks.nt",
+						wikidataterms=baseAddr+"wikidata-terms.nt",
+						wikidatastatements=baseAddr+"wikidata-statements.nt";
+						
 	
 	public static void main(String[] args)  {
 		
-		RepositoryConnection cxn=null;
-		
+		RepositoryConnection cxn =null;
 //		try {
 //			cxn = getLocalRepoConnection();
 //		} catch (OpenRDFException e) {
 //			e.printStackTrace();
 //		}
 		
-		QueryProcessor qp=new QueryProcessor(cxn);
-		qp.test();
+		//QueryProcessor qp=new QueryProcessor(cxn);
+		//qp.test();
+
+		//RDFTripleStoreFarsiExtractor extractor=new RDFTripleStoreFarsiExtractor();
+		//extractor.filterAllFiles();
 	}
 	
 	
 	static RepositoryConnection getLocalRepoConnection() throws OpenRDFException{
-		//String filename="D:\\Projects\\Knowledge Graph\\wikidata\\wikidata-statements.nt\\wikidata-instances.nt";
-		String filename="D:\\Projects\\Knowledge Graph\\wikidata\\wikidata-statements.nt\\wikidata-properties.nt";
-		//String filename="D:\\Projects\\Knowledge Graph\\wikidata\\wikidata-statements.nt\\wikidata-simple-statements.nt";		
+		String filename=wikidataterms+".filtered1";
+	
 		
 		final Properties props = new Properties();
 		
 		props.put(Options.BUFFER_MODE, "DiskRW"); // persistent file system located journal
 		
 		
-		props.put(Options.FILE, "/tmp/blazegraph/properties.jnl"); // journal file location
+		props.put(Options.FILE, "/tmp/blazegraph/all.jnl"); // journal file location
 		
 		//props.put(Options.BUFFER_MODE, com.bigdata.journal.BufferMode.DiskRW);
 		props.put(BigdataSail.Options.AXIOMS_CLASS, com.bigdata.rdf.axioms.NoAxioms.class.getName());
@@ -96,18 +108,18 @@ public class WikidataMain {
 			//NTriplesUtil.escapeString()	
 			//ok: used NTriples instead of N3 and it became ok!
 			
-//			try {
-//				cxn.begin();
-//				cxn.add(new File(filename), "http://", RDFFormat.NTRIPLES);
-//				cxn.commit();
-//			} catch (OpenRDFException ex) {
-//				cxn.rollback();
-//				throw ex;
-//			}catch (IOException ex){
-//				cxn.close();
-//			} finally {
-//				cxn.close();
-//			}
+			try {
+				cxn.begin();
+				cxn.add(new File(filename), "http://", RDFFormat.NTRIPLES);
+				cxn.commit();
+			} catch (OpenRDFException ex) {
+				cxn.rollback();
+				throw ex;
+			}catch (IOException ex){
+				cxn.close();
+			} finally {
+				cxn.close();
+			}
 			
 			long end=System.currentTimeMillis();
 			System.out.println("time(s): "+(end-start)/1000.0);
@@ -115,8 +127,8 @@ public class WikidataMain {
 
 
 			// evaluate sparql query
-			String q="SELECT (COUNT(?s) AS ?c)  WHERE { ?s ?p ?d .}";
-			//q="SELECT * {?s ?p ?o} LIMIT 100";
+			//String q="SELECT (COUNT(?s) AS ?c)  WHERE { ?s ?p ?d .}";
+			String q="SELECT * {?s ?p \"جوایز\"@fa } LIMIT 100";
 			
 			try {
 				TupleQuery tupleQuery = cxn.prepareTupleQuery(QueryLanguage.SPARQL,	q);				
