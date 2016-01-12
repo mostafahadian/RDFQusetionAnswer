@@ -19,17 +19,11 @@ public class RDFTripleStoreFarsiExtractor {
 	Set<String> set=new HashSet<String>();
 	
 	void filterAllFiles(){
-		String files[]={WikidataMain.wikidataproperties,
-						WikidataMain.wikidatainstances, 
-						WikidataMain.wikidatasimplestatements, 
-						WikidataMain.wikidatasitelinks, 
-						WikidataMain.wikidataterms, 
-						WikidataMain.wikidatastatements};
 		
-		int distinctFarsiEntityCount=insertEntitiesWithFarsiLabelIntoSet(files);
+		int distinctFarsiEntityCount=insertEntitiesWithFarsiLabelIntoSet(WikidataMain.files);
 		System.out.println("distinct farsi entities count: "+distinctFarsiEntityCount);
 		
-		int totalTriplesRemained=filterTriplesWithoutSelectedEntities(files);
+		int totalTriplesRemained=filterTriplesWithoutSelectedEntities(WikidataMain.files);
 		System.out.println("total triples remained across all files: "+totalTriplesRemained);
 	}
 	
