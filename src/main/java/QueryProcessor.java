@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -16,7 +15,6 @@ import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
-import org.openrdf.query.algebra.evaluation.TripleSource;
 import org.openrdf.repository.RepositoryConnection;
 
 
@@ -34,16 +32,12 @@ public class QueryProcessor {
 	}
 	
 	public void test(){
-		String queries[]={"زهرا اشراقی" ,"ارتفاع دماوند", "محل تولد حسن روحانی", "محل تولد باراک اوباما", "کشور شهروندی کلینت ایستوود", "پست سیاسی امام خمینی", "سعید جلیلی عضو حزب چیست؟", "ایدئولوژی سیاسی جبهه پایداری انقلاب اسلامی", "برادر امام حسن", "امام حسین", "", ""};
+		String queries[]={"","زهرا اشراقی" ,"ارتفاع دماوند", "محل تولد حسن روحانی", "محل تولد باراک اوباما", "کشور شهروندی کلینت ایستوود", "پست سیاسی امام خمینی", "سعید جلیلی عضو حزب چیست؟", "ایدئولوژی سیاسی جبهه پایداری انقلاب اسلامی", "برادر امام حسن", "امام حسین", "", ""};
 		//"ارتفاع دماوند" doesn't work because the type of the returned result is not a label therefore it doesn't have any lang and it gets filtered!
 		String noanswerqueries[] ={"محل تولد رییس جمهور"};
 		String exceptionqueries[]={"موقعیت جغرافیایی جمهوری خلق چین", "امام حسن برادرش که بود؟"};
-		processQuery(queries[0]);		
+		processQuery(queries[4]);		
 	}
-	
-	//redis
-	//bloomfilter
-	//taha.ghasemi@gmail.com
 	
 	void processQuery(String q){
 		String prop=null;
@@ -82,6 +76,7 @@ public class QueryProcessor {
 		String result;
 		if (prop!=null){
 			query=getEntityPropSparqlQuery(entity, prop);
+			System.out.println(query);
 			result=runQueryOnSparqlEndpoint(query);
 		}else{
 			query=getEntitySpecificPropSparqlQuery(entity, SPARQL_DESCRIPTION_PROPERTY_URI);

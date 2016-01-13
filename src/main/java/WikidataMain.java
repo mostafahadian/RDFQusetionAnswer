@@ -57,15 +57,23 @@ public class WikidataMain {
 //			e.printStackTrace();
 //		}
 		
-		String filesfiltered[]={files[0]+".filtered1", files[1]+".filtered1", files[2]+".filtered1",
-								files[3]+".filtered1", files[5]+".filtered1"};
-		insertFilesToLocalDB(filesfiltered, "all.jnl");
+		QueryProcessorLocalServer q=new QueryProcessorLocalServer();
+		q.test();
 		
-		//QueryProcessor qp=new QueryProcessor(cxn);
-		//qp.test();
-
-		//RDFTripleStoreFarsiExtractor extractor=new RDFTripleStoreFarsiExtractor();
-		//extractor.filterAllFiles();
+//		QueryProcessor qp=new QueryProcessor(cxn);
+//		qp.test();
+		
+//		extractPersianEntitiesAndInsertIntoDB();
+	}
+	
+	void extractPersianEntitiesAndInsertIntoDB(){
+		//extract those entities whose subject or predicate has something farsi (filter others)!
+		RDFTripleStoreFarsiExtractor extractor=new RDFTripleStoreFarsiExtractor();
+		extractor.filterAllFiles();
+		//insert the filtered files into local sparql server
+		String filesfiltered[]={files[0]+".filtered1", files[1]+".filtered1", files[2]+".filtered1",
+									files[3]+".filtered1", files[4]+".filtered1", files[5]+".filtered1"};
+		insertFilesToLocalDB(filesfiltered, "all.jnl");	
 	}
 	
 	static void insertFilesToLocalDB(String files[], String journalFile){
