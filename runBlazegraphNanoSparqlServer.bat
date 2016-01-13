@@ -1,0 +1,1 @@
+java -server -Xmx6g -Dbigdata.propertyFile=RunNanoSparqlServerRWStore.properties -jar blazegraph-bundled.jar
